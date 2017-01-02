@@ -1,6 +1,6 @@
 #!/bin/sh -e
 # t -- simple notes manager
-# Copyright (C) 2013-2016 Sergey Matveev <stargrave@stargrave.org>
+# Copyright (C) 2013-2017 Sergey Matveev <stargrave@stargrave.org>
 # Invoke the script without any arguments to briefly print all notes.
 # Otherwise you can specify the following ones:
 # a   -- add new note (either starts an editor if not arguments are specified,
