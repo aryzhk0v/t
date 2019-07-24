@@ -44,7 +44,8 @@ m)
     $EDITOR $(get_note $2)
     ;;
 *)
-    cat $(get_note $1)
+    note=$(get_note $1)
+    [ -e "$note" ] && cat $note || exit 1
     ;;
 esac
 purge
