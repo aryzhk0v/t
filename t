@@ -34,7 +34,7 @@ fi
 case "$1" in
 a)
     shift
-    note=$NOTES_DIR/$(date '+%s')
+    note=$NOTES_DIR/$(date "+%Y%m%d-%H%M%S")
     [ $# -gt 0 ] && echo "$@" > $note || $EDITOR $note
     ;;
 d)
