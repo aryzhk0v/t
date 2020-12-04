@@ -1,13 +1,28 @@
 #!/bin/sh -e
 # t -- simple notes manager
 # Copyright (C) 2013-2020 Sergey Matveev <stargrave@stargrave.org>
-# Invoke the script without any arguments to briefly print all notes.
-# Otherwise you can specify the following ones:
-# a   -- add new note (either starts an editor if not arguments are specified,
-#        or save them inside the note silently)
-# d N -- delete note N
-# m N -- modify note N by starting an editor
-# N   -- print out note's N contents
+#
+# Usage:
+# * t -- just briefly print all notes: their number and stripped first
+#   line of content
+# * t N -- print N note's contents
+# * t a [X X X] -- add a new note to the end. If arguments are specified
+#   then they will be the content. Otherwise $EDITOR is started
+# * t d N -- delete note number N. Pay attention that other notes may
+#   change their numbers!
+# * t m N -- edit note N with $EDITOR
+# Also you can specify $N environment variable that acts like some kind
+# of namespace for the notes (prepare directory first!). For example:
+#     $ N=work t a get job done
+#     $ N=work t a # it starts $EDITOR
+#     $ N=work t
+#     [0] get job done (1)
+#     [1] this is first line of 3-lines comment (3)
+#     $ N=work t d 0
+#     $ N=work t
+#     [0] this is first line of 3-lines comment (3)
+#     $ t
+#     [0] some earlier default namespace note (1)
 
 NOTES_DIR=$HOME/.t/$N
 
