@@ -1,6 +1,6 @@
 #!/bin/sh -e
 # t -- simple notes manager
-# Copyright (C) 2013-2020 Sergey Matveev <stargrave@stargrave.org>
+# Copyright (C) 2013-2021 Sergey Matveev <stargrave@stargrave.org>
 #
 # Usage:
 # * t -- just briefly print all notes: their number and stripped first
