@@ -1,6 +1,7 @@
-#!/bin/sh -e
+#!/usr/bin/env zsh
 # t -- simple notes manager
 # Copyright (C) 2013-2021 Sergey Matveev <stargrave@stargrave.org>
+# Current version is written on zsh. Previous was on POSIX shell.
 #
 # Usage:
 # * t -- just briefly print all notes: their number and stripped first
@@ -24,43 +25,44 @@
 #     $ t
 #     [0] some earlier default namespace note (1)
 
+set -e
+setopt NULL_GLOB
 NOTES_DIR=$HOME/.t/$N
+NOTES_DIR=${NOTES_DIR%/}
 
-purge()
-{
-    find $NOTES_DIR -size 0 -delete
+purge() {
+    local empties=($NOTES_DIR/*(.L0))
+    [[ $empties ]] && rm $empties || :
 }
 
-get_note()
-{
-    find $NOTES_DIR -maxdepth 1 -type f | sort | sed -n $(($1 + 1))p
+get_note() {
+    NOTE=($NOTES_DIR/*(.on[$(( $1 + 1 ))]))
+    [[ ${#NOTE} -eq 0 ]] && { print note not found >&2 ; exit 1 }
+    NOTE=${NOTE[1]}
 }
 
-if [ -z "$1" ]; then
+[[ $# -gt 0 ]] || {
     purge
-    cnt=0
-    for n in $(find $NOTES_DIR -maxdepth 1 -type f | sort); do
-        echo "[$cnt]" "$(sed 's/^\(.\{1,70\}\).*$/\1/;q' $n)" "($(sed -n '$=' $n))"
-        cnt=$(($cnt + 1))
-    done
-    exit 0
-fi
+    local ctr=0
+    for note ($NOTES_DIR/*(.on)) {
+        read line < $note
+        print -n "[$ctr] ${line[1,70]} "
+        [[ ${#line} -le 70 ]] || print -n "... "
+        lines=$(wc -l < $note)
+        printf "(%d)\n" $lines
+        ctr=$(( ctr + 1 ))
+    }
+    exit
+}
 
-case "$1" in
-a)
-    shift
+case $1 in
+(a)
     note=$NOTES_DIR/$(date "+%Y%m%d-%H%M%S")
-    [ $# -gt 0 ] && echo "$@" > $note || $EDITOR $note
+    [[ $# -gt 1 ]] && print -- ${@[2,-1]} > $note || $EDITOR $note
     ;;
-d)
-    rm -f $(get_note $2)
-    ;;
-m)
-    $EDITOR $(get_note $2)
-    ;;
-*)
-    note=$(get_note $1)
-    [ -e "$note" ] && cat $note || exit 1
-    ;;
+(d) get_note $2 ; rm -f $NOTE ;;
+(m) get_note $2 ; $EDITOR $NOTE ;;
+(*) get_note $1 ; cat $NOTE ;;
 esac
+
 purge
