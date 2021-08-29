@@ -36,6 +36,7 @@ purge() {
 }
 
 get_note() {
+    [[ "$1" = [0-9]* ]] || { print invalid note id ; exit 1 }
     NOTE=($NOTES_DIR/*(.on[$(( $1 + 1 ))]))
     [[ ${#NOTE} -eq 0 ]] && { print note not found >&2 ; exit 1 }
     NOTE=${NOTE[1]}
