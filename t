@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # t -- simple notes manager
-# Copyright (C) 2013-2021 Sergey Matveev <stargrave@stargrave.org>
+# Copyright (C) 2013-2022 Sergey Matveev <stargrave@stargrave.org>
 # Current version is written on zsh. Previous was on POSIX shell.
 #
 # Usage:
