@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # t -- simple notes manager
-# Copyright (C) 2013-2022 Sergey Matveev <stargrave@stargrave.org>
+# Copyright (C) 2013-2023 Sergey Matveev <stargrave@stargrave.org>
 # Current version is written on zsh. Previous was on POSIX shell.
 #
 # Usage:
@@ -51,7 +51,7 @@ get_note() {
         [[ ${#line} -le 70 ]] || print -n "... "
         lines=$(wc -l < $note)
         printf "(%d)\n" $lines
-        ctr=$(( ctr + 1 ))
+        (( ctr = ctr + 1 ))
     }
     exit
 }
