@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # t -- simple notes manager
 # Copyright (C) 2013-2023 Sergey Matveev <stargrave@stargrave.org>
-# Current version is written on zsh. Previous was on POSIX shell.
+# Current version is written on Z shell. Previous was on POSIX shell.
 #
 # Usage:
 # * t -- just briefly print all notes: their number and stripped first
