@@ -27,8 +27,10 @@
 
 set -e
 setopt NULL_GLOB
-NOTES_DIR=$HOME/.t/$N
+NOTES_DIR=$HOME/sync/yandex-disk/work/.t/$N
 NOTES_DIR=${NOTES_DIR%/}
+
+mkdir -p ${NOTES_DIR}
 
 purge() {
     local empties=($NOTES_DIR/*(.L0))
@@ -37,14 +39,14 @@ purge() {
 
 get_note() {
     [[ "$1" = [0-9]* ]] || { print invalid note id ; exit 1 }
-    NOTE=($NOTES_DIR/*(.on[$(( $1 + 1 ))]))
+    NOTE=($NOTES_DIR/*(.on[$(( $1 ))]))
     [[ ${#NOTE} -eq 0 ]] && { print note not found >&2 ; exit 1 }
     NOTE=${NOTE[1]}
 }
 
 [[ $# -gt 0 ]] || {
     purge
-    local ctr=0
+    local ctr=1
     for note ($NOTES_DIR/*(.on)) {
         read line < $note
         print -n "[$ctr] ${line[1,70]} "
